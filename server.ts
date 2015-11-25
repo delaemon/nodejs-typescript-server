@@ -6,12 +6,36 @@
 /// <reference path="./node-0.12.d.ts" />;
 import http = require("http")
 class Main {
+    private port = 5000
     constructor() {
-        console.log(process.argv[0])
+        this.parse()
         var server = http.createServer(
             (request:http.ServerRequest, response:http.ServerResponse) =>
             this.requestHandler(request, response))
-        server.listen("5000")
+        server.listen(this.port)
+    }
+    private parse() {
+        var opt = process.argv.slice(2)
+        var reEq = /=/g
+        var skip = false
+        for (var i in opt) {
+            i = +i
+            if (skip) {
+                skip = false
+                continue
+            }
+            if (reEq.test(opt[i])) {
+                var tmp = opt[i].split("=")
+                var key = tmp[0].replace(/-/g,"")
+                var val = tmp[1]
+                this[key] = val
+            } else {
+                var key = opt[i].replace(/-/g,"")
+                var val = opt[i+1]
+                this[key] = val
+                skip = true
+            }
+        }
     }
     private requestHandler(request, response) :void {
         response.end("Hello")

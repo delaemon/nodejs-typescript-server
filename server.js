@@ -7,12 +7,38 @@ var http = require("http");
 var Main = (function () {
     function Main() {
         var _this = this;
-        console.log(process.argv[0]);
+        this.port = 5000;
+        this.parse();
         var server = http.createServer(function (request, response) {
             return _this.requestHandler(request, response);
         });
-        server.listen("5000");
+        console.log(this.port);
+        server.listen(this.port);
     }
+    Main.prototype.parse = function () {
+        var opt = process.argv.slice(2);
+        var reEq = /=/g;
+        var skip = false;
+        for (var i in opt) {
+            i = +i;
+            if (skip) {
+                skip = false;
+                continue;
+            }
+            if (reEq.test(opt[i])) {
+                var tmp = opt[i].split("=");
+                var key = tmp[0].replace(/-/g, "");
+                var val = tmp[1];
+                this[key] = val;
+            }
+            else {
+                var key = opt[i].replace(/-/g, "");
+                var val = opt[i + 1];
+                this[key] = val;
+                skip = true;
+            }
+        }
+    };
     Main.prototype.requestHandler = function (request, response) {
         response.end("Hello");
     };
