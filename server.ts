@@ -1,19 +1,20 @@
-// commands
-// - compile => tsc server --module commonjs
-// - run => node server
-
-// Node.js定義ファイルの読み込み
 /// <reference path="./node-0.12.d.ts" />;
 import http = require("http")
-class Main {
+import Router = require("./router")
+export = Server
+
+class Server {
+
     private port = 5000
+    private server :http.Server
+
     constructor() {
         this.parse()
-        var server = http.createServer(
+        this.server = http.createServer(
             (request:http.ServerRequest, response:http.ServerResponse) =>
-            this.requestHandler(request, response))
-        server.listen(this.port)
+            Router.exec(request, response))
     }
+
     private parse() {
         var opt = process.argv.slice(2)
         var reEq = /=/g
@@ -37,8 +38,8 @@ class Main {
             }
         }
     }
-    private requestHandler(request, response) :void {
-        response.end("Hello")
+
+    public start() {
+        this.server.listen(this.port)
     }
 }
-var main:Main = new Main();

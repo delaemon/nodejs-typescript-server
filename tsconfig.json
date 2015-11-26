@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "noImplicitAny": true,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "suppressImplicitAnyIndexErrors": true,
+        "out": "./app.js",
+        "outDir": "./compile/",
+        "sourceMap": true
+    },
+    "exclude": [
+        "node_modules",
+        "static"
+    ]
+}
