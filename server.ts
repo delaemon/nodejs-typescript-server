@@ -29,11 +29,15 @@ class Server {
                 var tmp = opt[i].split("=")
                 var key = tmp[0].replace(/-/g,"")
                 var val = tmp[1]
-                this[key] = val
+                if (this.hasOwnProperty(key)) {
+                    this[key] = val
+                }
             } else {
                 var key = opt[i].replace(/-/g,"")
                 var val = opt[i+1]
-                this[key] = val
+                if (this.hasOwnProperty(key)) {
+                    this[key] = val
+                }
                 skip = true
             }
         }

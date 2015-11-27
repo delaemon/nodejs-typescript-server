@@ -5,7 +5,7 @@
         "removeComments": true,
         "preserveConstEnums": true,
         "suppressImplicitAnyIndexErrors": true,
-        "out": "./app.js",
+        "out": "./compile/app.js",
         "outDir": "./compile/",
         "sourceMap": true
     },
