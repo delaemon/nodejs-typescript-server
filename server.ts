@@ -10,9 +10,10 @@ class Server {
 
     constructor() {
         this.parse()
+        var router: Router = new Router
         this.server = http.createServer(
             (request:http.ServerRequest, response:http.ServerResponse) =>
-            Router.exec(request, response))
+            router.exec(request, response))
     }
 
     private parse() {
@@ -44,6 +45,7 @@ class Server {
     }
 
     public start() {
+        console.log("server start. port = " + this.port)
         this.server.listen(this.port)
     }
 }

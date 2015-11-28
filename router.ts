@@ -3,37 +3,66 @@ import url = require("url")
 export = Router
 
 class Router {
-    private map:Array<Routing> = []
-    public static exec(request:http.ServerRequest, response:http.ServerResponse) {
-        response.end(request.url)
+
+    private routings:Array<Routing> = []
+
+    constructor() {
+        this.routings.push(new Routing("/hello", "get", "helloController.get"))
+    }
+
+    public exec(request:http.ServerRequest, response:http.ServerResponse) {
+        var len = Object.keys(this.routings).length
+        for (var i = 0; i < len; i++) {
+            var m:Routing = this.routings[i]
+            if (m.getPath() == request.url) {
+                var tmp = m.getAction().split("\.")
+                var clazz = tmp[0]
+                var action = tmp[1]
+                var con = require("./controllers/" + clazz)
+                new con()[action](request, response)
+                console.log("routing path: %s, action: %s", m.getPath(), m.getAction())
+                break;
+            }
+        }
     }
 }
 
 class Routing {
     private path:string
-    private action:string
     private method:string
-    constructor(path:string, action:string, method:string) {
+    private action:string
+    constructor(path:string, method:string, action:string) {
         this.validatePath(path)
-        this.validateAction(action)
         this.validateMethod(method)
+        this.validateAction(action)
         this.path = path
-        this.action = action
         this.method = method
+        this.action = action
     }
+
+    public getPath() {
+        return this.path
+    }
+
+    public getAction() {
+        return this.action
+    }
+
     private validatePath(path: string) {
         if (false) {
             throw Error(`"invalid routing path. ${path}"`)
         }
     }
-    private validateAction(action: string) {
-        if (false) {
-            throw Error(`"invalid routing action. ${action}"`)
-        }
-    }
+
     private validateMethod(method: string) {
         if (false) {
             throw Error(`"invalid routing method. ${method}"`)
+        }
+    }
+
+    private validateAction(action: string) {
+        if (false) {
+            throw Error(`"invalid routing action. ${action}"`)
         }
     }
 }
