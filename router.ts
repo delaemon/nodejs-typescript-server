@@ -49,20 +49,25 @@ class Routing {
     }
 
     private validatePath(path: string) {
-        if (false) {
-            throw Error(`"invalid routing path. ${path}"`)
+        if(!path || /[^a-z0-9\:\/\?\#\[\]\@\!\$\&\'\(\)\*\+\,\;\=\.\-\_\~\%]/i.test(path)) {
+            throw new Error(`invalid routing path. "${path}"`)
         }
     }
 
     private validateMethod(method: string) {
-        if (false) {
-            throw Error(`"invalid routing method. ${method}"`)
+        if(!method || /^(?!(get|post|put|delete))/i.test(method)) {
+            throw Error(`invalid routing method. "${method}"`)
         }
     }
 
     private validateAction(action: string) {
-        if (false) {
-            throw Error(`"invalid routing action. ${action}"`)
+        var tmp = action.split(".")
+        var clazz = tmp[0]
+        var act = tmp[1]
+        var con = require("./controllers/" + clazz)
+        var c = new con()
+        if (!action||!con|| typeof new con()[act] != "function") {
+            throw Error(`invalid routing action. "${action}"`)
         }
     }
 }
