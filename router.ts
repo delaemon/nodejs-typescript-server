@@ -66,7 +66,7 @@ class Routing {
         var act = tmp[1]
         var con = require("./controllers/" + clazz)
         var c = new con()
-        if (!action||!con|| typeof new con()[act] != "function") {
+        if (!action||!con|| typeof (new con())[act] != "function") {
             throw Error(`invalid routing action. "${action}"`)
         }
     }
