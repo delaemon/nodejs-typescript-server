@@ -1,7 +1,8 @@
 /// <reference path="./node-0.12.d.ts" />;
-import http = require("http")
-import Router = require("./router")
-export = Server
+import * as http from "http"
+import Router from "./router"
+
+export default Server
 
 class Server {
 

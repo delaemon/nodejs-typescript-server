@@ -1,6 +1,6 @@
-import http = require("http")
+import * as http from "http"
 
-export = helloController
+export default helloController
 
 class helloController {
     constructor() {

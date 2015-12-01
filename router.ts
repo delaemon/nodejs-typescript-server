@@ -1,6 +1,6 @@
-import http = require("http")
-import url = require("url")
-export = Router
+import * as http from "http"
+
+export default Router
 
 class Router {
 
